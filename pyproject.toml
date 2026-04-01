@@ -1,0 +1,55 @@
+[project]
+name = "task-fastapi"
+version = "0.1.0"
+description = ""
+authors = [
+    {name = "danalmeidap",email = "dbatistadealmeida23@gmail.com"}
+]
+readme = "README.md"
+requires-python = ">=3.13,<4.0"
+dependencies = [
+    "fastapi[standard] (>=0.135.3,<0.136.0)"
+]
+
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^9.0.2"
+pytest-cov = "^7.1.0"
+taskipy = "^1.14.1"
+ruff = "^0.15.8"
+typos = "^1.45.0"
+
+
+[tool.ruff]
+line-length = 79
+extend-exclude = ['migrations']
+
+
+[tool.ruff.lint]
+preview = true
+select = ['I', 'F', 'E', 'W', 'PL', 'PT']
+
+[tool.ruff.format]
+preview = true
+quote-style = 'single'
+
+[tool.pytest.ini_options]
+pythonpath = "."
+addopts = '-p no:warnings'
+
+[tool.typos.files]
+extend-exclude = ["*.md"]
+
+[tool.taskipy.tasks]
+pre_lint = 'typos'
+lint = 'ruff check'
+pre_format = 'ruff check --fix'
+format = 'ruff format'
+run = 'fastapi dev task_fastapi/app.py'
+pre_test = 'task lint'
+test = 'pytest -s -x --cov=task_fastapi -vv'
+post_test = 'coverage html'
