@@ -13,4 +13,4 @@ def test_read_root_should_return_200():
 
 def test_read_root_should_return_message():
     response = client.get('/')
-    assert response.json() == {'message': 'Hello, World!'}
+    assert response.json() == {'message': 'Hello World'}

@@ -45,7 +45,6 @@ def update_task(task_id: int, task: TaskSchema):
 
 
 @task_router.delete('/{task_id}')
-@task_router.delete('/{task_id}')
 def delete_task(task_id: int):
     if task_id > len(task_db) or task_id < 1:
         raise HTTPException(

@@ -44,10 +44,10 @@ def test_user_public_structure():
 
 def test_user_db_inheritance():
     data = {
-        "id": 1,
-        "username": "testuser",
-        "email": "test@test.com",
-        "hashed_password": "hashed_password123"
+        'id': 1,
+        'username': 'testuser',
+        'email': 'test@test.com',
+        'hashed_password': 'hashed_password123',
     }
     user = UserDB(**data)
     assert user.id == 1
@@ -63,8 +63,8 @@ def test_user_public_form_orm():
             self.username = username
             self.email = email
 
-    mock_user = MockUser(id=1, username="testuser", email="test@test.com")
+    mock_user = MockUser(id=1, username='testuser', email='test@test.com')
     user = UserPublic.model_validate(mock_user)
     assert user.id == 1
-    assert user.username == "testuser"
-    assert user.email == "test@test.com"
+    assert user.username == 'testuser'
+    assert user.email == 'test@test.com'
