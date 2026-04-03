@@ -16,6 +16,7 @@ def client():
 def clear_db():
     task_db.clear()
     user_db.clear()
+    yield  # noqa: PT022
 
 
 @pytest.fixture
@@ -26,4 +27,29 @@ def user(client):
         "password": "password123"
     }
     response = client.post("/users/", json=user_data)
+    return response.json()
+
+
+@pytest.fixture
+def task_no_owner(client):
+    response = client.post(
+        "/tasks/",
+        json={"title": "Initial task",
+               "description": "Sem dono",
+         "owner_id": None}
+    )
+    return response.json()
+
+
+@pytest.fixture
+def task_with_owner(client, user):
+    user_id = user["id"] if isinstance(user, dict) else user.id
+    response = client.post(
+        "/tasks/",
+        json={
+            "title": "Tarefa com Dono",
+            "description": "Já nasce com dono",
+            "owner_id": user_id
+        }
+    )
     return response.json()
