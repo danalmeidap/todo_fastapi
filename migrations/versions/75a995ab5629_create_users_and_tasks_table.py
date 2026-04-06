@@ -1,4 +1,4 @@
-"""Create Users and Taks table
+"""Create Users and Tasks table
 
 Revision ID: 75a995ab5629
 Revises: 

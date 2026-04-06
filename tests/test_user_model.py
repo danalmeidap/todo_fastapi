@@ -7,28 +7,28 @@ from task_fastapi.models.user import User
 
 def test_create_user_instance(session):
     new_user = User(
-        username="gemini",
-        email="gemini@google.com",
-        hashed_password="hashed_secret_123"
+        username='gemini',
+        email='gemini@google.com',
+        hashed_password='hashed_secret_123',
     )
     session.add(new_user)
     session.commit()
     session.refresh(new_user)
 
     assert new_user.id is not None
-    assert new_user.username == "gemini"
-    assert hasattr(new_user, "created_at")
+    assert new_user.username == 'gemini'
+    assert hasattr(new_user, 'created_at')
 
 
 def test_user_unique_constraints(session):
-    user1 = User(username="duplicado",
-            email="unique@test.com",
-            hashed_password="123")
+    user1 = User(
+        username='duplicado', email='unique@test.com', hashed_password='123'
+    )
     session.add(user1)
     session.commit()
-    user2 = User(username="duplicado",
-            email="outro@test.com",
-            hashed_password="456")
+    user2 = User(
+        username='duplicado', email='outro@test.com', hashed_password='456'
+    )
     session.add(user2)
     with pytest.raises(IntegrityError):
         session.commit()
@@ -36,13 +36,13 @@ def test_user_unique_constraints(session):
 
 
 def test_user_timestamps_auto_update(session):
-    user = User(username="timer",
-        email="timer@test.com",
-        hashed_password="123")
+    user = User(
+        username='timer', email='timer@test.com', hashed_password='123'
+    )
     session.add(user)
     session.commit()
     initial_updated_at = user.updated_at
-    user.username = "timer_updated"
+    user.username = 'timer_updated'
     session.commit()
     session.refresh(user)
     assert user.updated_at >= initial_updated_at
@@ -50,12 +50,13 @@ def test_user_timestamps_auto_update(session):
 
 def test_delete_user_cascade_tasks(session):
     from task_fastapi.models.task import Task  # noqa: PLC0415
-    user = User(username="cascade",
-            email="cascade@test.com",
-            hashed_password="123")
+
+    user = User(
+        username='cascade', email='cascade@test.com', hashed_password='123'
+    )
     session.add(user)
     session.commit()
-    task = Task(title="Task do User", description="...", owner_id=user.id)
+    task = Task(title='Task do User', description='...', owner_id=user.id)
     session.add(task)
     session.commit()
     task_id = task.id
@@ -66,9 +67,9 @@ def test_delete_user_cascade_tasks(session):
 
 
 def test_get_user_by_id(session):
-    user = User(username="timer",
-        email="timer@test.com",
-        hashed_password="123")
+    user = User(
+        username='timer', email='timer@test.com', hashed_password='123'
+    )
     session.add(user)
     session.commit()
     assert user.id == 1
@@ -77,9 +78,10 @@ def test_get_user_by_id(session):
 def test_get_all_users_db(session):
     correct_len = 2
     users = [
-        User(username='eve', email='eve@test.com', hashed_password="123"),
-        User(username='frank', email='frank@test.com',
-              hashed_password='secret'),
+        User(username='eve', email='eve@test.com', hashed_password='123'),
+        User(
+            username='frank', email='frank@test.com', hashed_password='secret'
+        ),
     ]
     session.add_all(users)
     session.commit()

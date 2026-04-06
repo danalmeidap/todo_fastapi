@@ -23,9 +23,9 @@ class User:
     updated_at: Mapped[datetime] = mapped_column(
         init=False, server_default=func.now(), onupdate=func.now()
     )
-    tasks: Mapped[List["Task"]] = relationship(
-        "Task",
-        back_populates="owner",
-        cascade="all, delete-orphan",
-        init=False
+    tasks: Mapped[List['Task']] = relationship(
+        'Task',
+        back_populates='owner',
+        cascade='all, delete-orphan',
+        init=False,
     )

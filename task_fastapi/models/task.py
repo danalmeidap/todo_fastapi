@@ -29,8 +29,6 @@ class Task:
         init=False, server_default=func.now(), onupdate=func.now()
     )
 
-    owner: Mapped["User"] = relationship(
-        "User",
-        back_populates="tasks",
-        init=False
+    owner: Mapped['User'] = relationship(
+        'User', back_populates='tasks', init=False
     )
