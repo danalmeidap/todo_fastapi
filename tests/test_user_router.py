@@ -129,5 +129,5 @@ def test_delete_user(client, user):
 
 
 def test_delete_user_not_found(client):
-    response = client.delete("/users/999")
+    response = client.delete('/users/999')
     assert response.status_code == status.HTTP_404_NOT_FOUND

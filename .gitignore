@@ -155,4 +155,4 @@ cython_debug/
 
 database.db
 
-# End of https://mrkandreev.name/snippets/gitignore-generator/#Python,VisualStudioCode,poetry,ruff
+# End of https://mrkandreev.name/snippets/gitignore-generator/#Python,VisualStudioCode,poetry,ruffdatabase.db

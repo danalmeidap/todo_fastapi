@@ -4,30 +4,30 @@ from task_fastapi.schemas.user import UserDB, UserList, UserPublic, UserSchema
 
 user_router = APIRouter()
 
-user_db: list[UserDB] = []
+users_db: list[UserDB] = []
 
 
 @user_router.post(
     '/', response_model=UserPublic, status_code=status.HTTP_201_CREATED
 )
 def create_user(user: UserSchema):
-    if any(u.email == user.email for u in user_db):
+    if any(u.email == user.email for u in users_db):
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
-            detail="Email already registered"
+            detail='Email already registered',
         )
-    if any(u.username == user.username for u in user_db):
+    if any(u.username == user.username for u in users_db):
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
-            detail="Username already taken"
+            detail='Username already taken',
         )
     user_with_id = UserDB(
-        id=len(user_db) + 1,
+        id=len(users_db) + 1,
         username=user.username,
         email=user.email,
-        hashed_password=user.password + "hash"
+        hashed_password=user.password + 'hash',
     )
-    user_db.append(user_with_id)
+    users_db.append(user_with_id)
     return user_with_id
 
 
@@ -36,18 +36,17 @@ def get_users():
     return UserList(
         users=[
             UserPublic(id=u.id, username=u.username, email=u.email)
-            for u in user_db
+            for u in users_db
         ]
     )
 
 
 @user_router.get('/{user_id}', response_model=UserPublic)
 def read_user(user_id: int):
-    user = next((u for u in user_db if u.id == user_id), None)
+    user = next((u for u in users_db if u.id == user_id), None)
     if not user:
         raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail="User not found"
+            status_code=status.HTTP_404_NOT_FOUND, detail='User not found'
         )
     return user
 
@@ -56,7 +55,7 @@ def read_user(user_id: int):
     '/{user_id}', response_model=UserPublic, status_code=status.HTTP_200_OK
 )
 def update_user(user_id: int, user: UserSchema):
-    for i, u in enumerate(user_db):
+    for i, u in enumerate(users_db):
         if u.id == user_id:
             updated_user = UserDB(
                 id=user_id,
@@ -64,7 +63,7 @@ def update_user(user_id: int, user: UserSchema):
                 email=user.email,
                 hashed_password=user.password + '_hashed',
             )
-            user_db[i] = updated_user
+            users_db[i] = updated_user
             return updated_user
     raise HTTPException(
         status_code=status.HTTP_404_NOT_FOUND, detail='User not found'
@@ -73,9 +72,9 @@ def update_user(user_id: int, user: UserSchema):
 
 @user_router.delete('/{user_id}', status_code=status.HTTP_204_NO_CONTENT)
 def delete_user(user_id: int):
-    if user_id > len(user_db) or user_id < 1:
+    if user_id > len(users_db) or user_id < 1:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND, detail='User not found'
         )
-    del user_db[user_id - 1]
+    del users_db[user_id - 1]
     return {'message': 'User deleted successfully'}

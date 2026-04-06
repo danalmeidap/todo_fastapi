@@ -4,11 +4,10 @@ from fastapi.testclient import TestClient
 
 def test_create_task_without_owner(client):
     response = client.post(
-        "/tasks/",
-        json={"title": "Tarefa órfã", "description": "Sem dono"}
+        '/tasks/', json={'title': 'Tarefa órfã', 'description': 'Sem dono'}
     )
     assert response.status_code == status.HTTP_201_CREATED
-    assert response.json()["owner_id"] is None
+    assert response.json()['owner_id'] is None
 
 
 def test_create_task_with_owner(client: TestClient, user):
@@ -30,14 +29,10 @@ def test_create_task_with_owner(client: TestClient, user):
 
 def test_create_task_with_invalid_owner(client):
     response = client.post(
-        "/tasks/",
-        json={
-            "title": "Tarefa fantasma",
-            "owner_id": 999
-        }
+        '/tasks/', json={'title': 'Tarefa fantasma', 'owner_id': 999}
     )
     assert response.status_code == status.HTTP_404_NOT_FOUND
-    assert response.json()["detail"] == "Owner not found"
+    assert response.json()['detail'] == 'Owner not found'
 
 
 def test_read_tasks_list(client: TestClient):
@@ -68,16 +63,16 @@ def task_read_task_not_found(client: TestClient):
 
 
 def test_update_task_owner_success(client, user, task_no_owner):
-    task_id = task_no_owner["id"]
-    user_id = user["id"]
+    task_id = task_no_owner['id']
+    user_id = user['id']
     response = client.put(
-        f"/tasks/{task_id}",
+        f'/tasks/{task_id}',
         json={
-            "title": "Agora tenho dono",
-            "description": "Desc",
-            "completed": False,
-            "owner_id": user_id
-        }
+            'title': 'Agora tenho dono',
+            'description': 'Desc',
+            'completed': False,
+            'owner_id': user_id,
+        },
     )
     assert response.status_code == status.HTTP_200_OK
 
@@ -102,35 +97,35 @@ def test_update_task(client):
 
 
 def test_update_task_with_non_existent_owner(client, task_no_owner):
-    task_id = task_no_owner["id"]
+    task_id = task_no_owner['id']
     invalid_owner_id = 9999  # Um ID que certamente não existe
     response = client.put(
-        f"/tasks/{task_id}",
+        f'/tasks/{task_id}',
         json={
-            "title": "Tentativa Inválida",
-            "description": "Este teste deve retornar 404",
-            "completed": False,
-            "owner_id": invalid_owner_id
-        }
+            'title': 'Tentativa Inválida',
+            'description': 'Este teste deve retornar 404',
+            'completed': False,
+            'owner_id': invalid_owner_id,
+        },
     )
     assert response.status_code == status.HTTP_404_NOT_FOUND
-    assert response.json()["detail"] == "Owner not found"
+    assert response.json()['detail'] == 'Owner not found'
 
 
 def test_update_task_with_none_owner_success(client, task_with_owner):
-    task_id = task_with_owner["id"]
+    task_id = task_with_owner['id']
 
     response = client.put(
-        f"/tasks/{task_id}",
+        f'/tasks/{task_id}',
         json={
-            "title": "Removendo dono",
-            "description": "Desc",
-            "completed": False,
-            "owner_id": None
-        }
+            'title': 'Removendo dono',
+            'description': 'Desc',
+            'completed': False,
+            'owner_id': None,
+        },
     )
     assert response.status_code == status.HTTP_200_OK
-    assert response.json()["owner_id"] is None
+    assert response.json()['owner_id'] is None
 
 
 def test_delete_task(client):
