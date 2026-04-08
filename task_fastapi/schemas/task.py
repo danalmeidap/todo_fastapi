@@ -6,7 +6,7 @@ from pydantic import BaseModel, ConfigDict
 class TaskSchema(BaseModel):
     title: str
     description: str | None = None
-    completed: bool = False
+    is_completed: bool = False
     owner_id: int | None = None
 
 
@@ -23,5 +23,5 @@ class TaskList(BaseModel):
 class TaskUpdate(BaseModel):
     title: Optional[str] = None
     description: Optional[str] = None
-    completed: Optional[bool] = None
+    is_completed: Optional[bool] = None
     owner_id: Optional[int] = None

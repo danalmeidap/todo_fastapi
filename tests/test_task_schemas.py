@@ -4,16 +4,16 @@ from pydantic import ValidationError
 from task_fastapi.schemas.task import TaskPublic, TaskSchema
 
 
-def test_task_schema_valido():
+def test_task_schema_valid():
     data = {
         'title': 'Minha primeira tarefa',
         'description': 'This is a test task.',
-        'completed': False,
+        'is_completed': False,
     }
     task = TaskSchema(**data)
     assert task.title == data['title']
     assert task.description == data['description']
-    assert task.completed is False
+    assert task.is_completed is False
 
 
 def test_task_schema_default_values():
@@ -21,7 +21,7 @@ def test_task_schema_default_values():
     task = TaskSchema(**data)
     assert task.title == data['title']
     assert task.description is None
-    assert task.completed is False
+    assert task.is_completed is False
 
 
 def test_task_schema_missing_title():
@@ -34,7 +34,7 @@ def test_task_public_from_orm():
         id = 1
         title = 'Tarefa do Banco'
         description = 'Persistida'
-        completed = True
+        is_completed = True
 
     mock_obj = TaskModelMock()
     task_pub = TaskPublic.model_validate(mock_obj)

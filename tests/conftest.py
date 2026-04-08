@@ -1,6 +1,6 @@
 import pytest
 from fastapi.testclient import TestClient
-from sqlalchemy import create_engine
+from sqlalchemy import StaticPool, create_engine
 from sqlalchemy.orm import Session
 
 from task_fastapi.app import app
@@ -11,7 +11,11 @@ from task_fastapi.settings.database import get_db, table_registry
 
 @pytest.fixture
 def session():
-    engine = create_engine('sqlite:///:memory:')
+    engine = create_engine(
+        'sqlite:///:memory:',
+        connect_args={'check_same_thread': False},
+        poolclass=StaticPool,
+    )
     table_registry.metadata.create_all(engine)
 
     with Session(engine) as session:
@@ -112,3 +116,18 @@ def taskDB(session, userDB):
     session.commit()
     session.refresh(new_task)
     return new_task
+
+
+@pytest.fixture
+def SecondUserDB(session):
+    from task_fastapi.models.user import User  # noqa: PLC0415
+
+    new_user2 = User(
+        username='dbuser2',
+        email='db2@example.com',
+        hashed_password='hashed_password2',
+    )
+    session.add(new_user2)
+    session.commit()
+    session.refresh(new_user2)
+    return new_user2

@@ -18,7 +18,9 @@ class Task:
     # Movendo campos obrigatórios (sem default) para o topo
     title: Mapped[str]
     description: Mapped[str]
-    owner_id: Mapped[int] = mapped_column(ForeignKey('users.id'))
+    owner_id: Mapped[int] = mapped_column(
+        ForeignKey('users.id'), nullable=True, default=None
+    )
 
     # Campos com valor padrão (default) devem vir por último
     is_completed: Mapped[bool] = mapped_column(default=False)
