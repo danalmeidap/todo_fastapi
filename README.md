@@ -1,16 +1,17 @@
 
-# User Management API 
+# Task Management API
 
-API robusta para gerenciamento de usuários desenvolvida com **FastAPI**, utilizando **SQLAlchemy/SQLModel** para persistência e um pipeline completo de testes e qualidade.
+API robusta e escalável para gestão de tarefas e utilizadores, desenvolvida com FastAPI. O projeto utiliza SQLModel para uma integração nativa entre modelos de dados e ORM, seguindo o Repository Pattern.
 
 
 ## 🛠 Tecnologias e Ferramentas
 
 * **Framework:** [FastAPI](https://fastapi.tiangolo.com/).
-* **ORM:** [SQLAlchemy](https://www.sqlalchemy.org/) / [SQLModel](https://sqlmodel.tiangolo.com/).
+* **ORM:** [SQLAlchemy](https://www.sqlalchemy.org/)
 * **Banco de Dados:** SQLite (Desenvolvimento) com suporte a migrações via **Alembic**.
+* **Repository pattern:** [Repository pattern](https://medium.com/@kmuhsinn/the-repository-pattern-in-python-write-flexible-testable-code-with-fastapi-examples-aa0105e40776)
 * **Qualidade de Código:** **Ruff** (Linter/Formatter) e **Pytest** (Testes Automatizados).
-* **Gerenciamento de Dependências:** `pyproject.toml`.
+* **Gerenciamento de Dependências:** `pyproject.toml
 
 
 ## 🔧 Instalação e Ambiente
