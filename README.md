@@ -56,7 +56,7 @@ Siga os passos abaixo para configurar o ambiente e rodar a aplicação localment
 5. **Testes e qualidade**
    ```bash
       # Executar testes com relatório de cobertura
-     pytest --cov=task_fasta
+     pytest -s -x --cov=task_fastapi -vv
 ## ✅ Funcionalidades Implementadas
 
 ### Gestão de Utilizadores
