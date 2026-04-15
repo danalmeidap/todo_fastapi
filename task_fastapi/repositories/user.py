@@ -50,6 +50,11 @@ class UserRepository:
     def get_by_email(self, email: str) -> Optional[User]:
         return self.session.scalar(select(User).where(User.email == email))
 
+    def get_user_by_username(self, username: str):
+        return self.session.scalar(
+            select(User).where(User.username == username)
+        )
+
     def exists(self, user_id: int) -> bool:
         return (
             self.session.scalar(

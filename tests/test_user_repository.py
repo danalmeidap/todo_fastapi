@@ -91,3 +91,13 @@ def test_delete_user_not_found():
         user_repo.delete(user_id=999)
     assert 'User with id 999 not found' in str(exc_info.value)
     assert not mock_session.commit.called
+
+
+def test_get_user_by_username_success(userDB):
+    mock_session = MagicMock()
+    mock_session.scalar.return_value = userDB
+    user_repo = UserRepository(mock_session)
+    found_user = user_repo.get_user_by_username(userDB.id)
+    assert found_user is not None
+    assert found_user.username == userDB.username
+    assert mock_session.scalar.called

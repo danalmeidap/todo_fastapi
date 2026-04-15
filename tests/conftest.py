@@ -1,3 +1,5 @@
+from unittest.mock import MagicMock
+
 import pytest
 from fastapi.testclient import TestClient
 from sqlalchemy import StaticPool, create_engine
@@ -7,6 +9,7 @@ from task_fastapi.app import app
 from task_fastapi.routers.task import tasks_db
 from task_fastapi.routers.user import users_db
 from task_fastapi.settings.database import get_db, table_registry
+from tests.test_deps import MockRepository
 
 
 @pytest.fixture
@@ -131,3 +134,8 @@ def SecondUserDB(session):
     session.commit()
     session.refresh(new_user2)
     return new_user2
+
+
+@pytest.fixture
+def mock_repo():
+    return MagicMock(spec=MockRepository)
